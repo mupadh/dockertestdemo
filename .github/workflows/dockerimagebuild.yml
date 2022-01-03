@@ -17,11 +17,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
+      
+
+    - name: docker login
+      env:
+          DOCKER_USER: ${{ secrets.DOCKERUSER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERPASSWORD }}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        
     - name: Build the Docker image
       run: docker build . -f Dockerfile -t demo
-    - run: docker push https://hub.docker.com/repository/docker/mupadh/test:demo
+   
+    - name: Docker push
+      run: docker push ${{secrets.DOCKER_USER}}/mupadh/test:demo
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-    # Scan code with Checkmarx
+ 
    
 
